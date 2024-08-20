@@ -2,6 +2,20 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
+import L from "leaflet";
+import markerIcon from "./assets/leaflet/marker-icon.png";
+import markerIcon2x from "./assets/leaflet/marker-icon-2x.png";
+import markerShadow from "./assets/leaflet/marker-shadow.png";
+
+const customIcon = L.icon({
+  iconUrl: markerIcon,
+  iconRetinaUrl: markerIcon2x,
+  shadowUrl: markerShadow,
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  shadowSize: [41, 41],
+});
 
 const cityCoordinates = {
   Oakland: { lat: 37.8049, lng: -122.2711 },
@@ -115,7 +129,7 @@ const MapComponent = () => {
       <MapContainer
         center={[37.7749, -122.4194]}
         zoom={4}
-        style={{ height: "800px", width: "100%" }} 
+        style={{ height: "800px", width: "100%" }}
         scrollWheelZoom={false}
         zoomControl={false}
       >
@@ -124,12 +138,16 @@ const MapComponent = () => {
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         />
         {locations.map((location) => (
-          <Marker key={location.city} position={[location.lat, location.lng]}>
+          <Marker
+            key={location.city}
+            position={[location.lat, location.lng]}
+            icon={customIcon}
+          >
             <Popup>
               <div className="text-sm">
                 <strong>{location.city}</strong>
                 <br />
-                {location.customers} customers
+                {location.customers} Customers
               </div>
             </Popup>
           </Marker>
